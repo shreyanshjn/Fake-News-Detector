@@ -1,11 +1,13 @@
 import React from 'react'
-import axios from 'axios';
+import axios from 'axios'
+import loader from './giphy.gif' 
 
 class Main extends React.Component {
     constructor() {
         super();
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
+            loading: false,
             output: ""
         }
     }
@@ -18,13 +20,24 @@ class Main extends React.Component {
             if(key==="news")news=value
             if(key==="title")title=value
             if(key==="author")author=value
-        }   
-        axios.get(`http://localhost:8000/fake_news/check?news=${news}&title=${title}&author=${author    }`)
+        }
+        this.setState({
+            loading: true
+        }, () => {
+            axios.get(`http://localhost:8000/fake_news/check?news=${news}&title=${title}&author=${author    }`)
             .then(res => {
                 this.setState({
+                    loading: false,
                     output: res.data.isTrue?"Real": "Fake"
                 })
             })
+            .catch(err => {
+                this.setState({
+                    loading: false
+                })
+                console.log(err)
+            })    
+        })
     }
     render(){
         return (
@@ -57,7 +70,7 @@ class Main extends React.Component {
                     />
                     <button className="btn btn-outline-primary" data-mdb-ripple-color="dark" style={{"margin-top": "1vh"}}>Submit!</button>
                     </form>
-                    <div>{this.state.output}</div>
+                    {this.state.loading ? <div style={{"height":"80px", "display":"flex", "alignItems":"center", "justifyContent":"center", "overflow":"hidden"}}><img src = {loader} alt = "Loading"/> </div>: <div>{this.state.output}</div>}
                 </div>
             </div>
         )
