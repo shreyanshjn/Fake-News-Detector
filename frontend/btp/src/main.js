@@ -24,7 +24,7 @@ class Main extends React.Component {
         this.setState({
             loading: true
         }, () => {
-            axios.get(`http://localhost:8000/fake_news/check?news=${news}&title=${title}&author=${author    }`)
+            axios.get(`http://localhost:8000/fake_news/check?news=${news}&title=${title}&author=${author}`)
             .then(res => {
                 this.setState({
                     loading: false,

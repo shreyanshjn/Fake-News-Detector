@@ -10,7 +10,12 @@ import spacy
 
 nlp = spacy.load('en')
 
-txt_field = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(_file_))), "ml", "TEXT.Field")
+SEED = 1234
+torch.manual_seed(SEED)
+torch.backends.cudnn.deterministic = True
+        
+
+txt_field = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "ml", "TEXT.Field")
         
 with open(txt_field,"rb")as f:
     TEXT=dill.load(f)
@@ -40,11 +45,11 @@ def predict(model, sentence):
 class classifier(nn.Module):
     
     #define all the layers used in model
-    def _init_(self, vocab_size, embedding_dim, hidden_dim, output_dim, n_layers, 
+    def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim, n_layers, 
                  bidirectional, dropout):
         
         #Constructor
-        super()._init_()          
+        super().__init__()          
         
         #embedding layer
         self.embedding = nn.Embedding(vocab_size, embedding_dim)
@@ -90,20 +95,17 @@ class classifier(nn.Module):
 class FakeNewsCheckerView(APIView):
     
     def get(self, request, *args, **kwargs):
-        SEED = 1234
-        torch.manual_seed(SEED)
-        torch.backends.cudnn.deterministic = True
         
         #define hyperparameters
-        size_of_vocab = 7965
+        size_of_vocab = 8002
         embedding_dim = 100
         num_hidden_nodes = 32
         num_output_nodes = 1
-        num_layers = 2
+        num_layers = 4
         bidirection = True
         dropout = 0.2
 
-        path_wts = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(_file_))), "ml", "saved_weights.pt")
+        path_wts = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "ml", "saved_weights.pt")
         model1 = classifier(size_of_vocab, embedding_dim, num_hidden_nodes,num_output_nodes, num_layers, 
                    bidirectional = True, dropout = dropout)
         model1.load_state_dict(torch.load(path_wts))
@@ -113,7 +115,7 @@ class FakeNewsCheckerView(APIView):
         news = request.query_params.get('news')
         title = request.query_params.get('title')
         author = request.query_params.get('author')
-        total = str(title)+str(author)+str(news)
+        total = str(title)+' '+str(author)+' '+str(news)
         val = predict(model1, total)
         print(val)
         if val>=0.5:
@@ -121,3 +123,4 @@ class FakeNewsCheckerView(APIView):
         else:
             res=0
         return Response({"isTrue": res})
+    
