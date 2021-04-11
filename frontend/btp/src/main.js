@@ -24,7 +24,11 @@ class Main extends React.Component {
         this.setState({
             loading: true
         }, () => {
-            axios.get(`http://localhost:8000/fake_news/check?news=${news}&title=${title}&author=${author}`)
+            axios.post("https://btp-backend-fakenews.herokuapp.com/fake_news/check/  ", {
+                "title": title,
+                "author": author,
+                "news": news
+            })
             .then(res => {
                 this.setState({
                     loading: false,
