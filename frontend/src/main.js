@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import loader from './giphy.gif' 
+import Bot from './Bot'
 
 class Main extends React.Component {
     constructor() {
@@ -48,7 +49,7 @@ class Main extends React.Component {
             <div>
                 <h1>Detect fake news using ML</h1>
                 <div className="row justify-content-center" style={{"padding": "10%", "alignContent": "center"}}>
-                    <div class="card col-sm-12" style={{"paddingTop": "5vh", "paddingBottom": "5vh"}}>
+                    <div className="card col-sm-12" style={{"paddingTop": "5vh", "paddingBottom": "5vh"}}>
                         <form onSubmit={this.handleSubmit}>
                             <label htmlFor="news" style={{"fontSize": "20px", "marginBottom": "0vh"}}>Enter News<span style={{"color": "red", "padding":"4px","fontSize":"20px"}}>*</span></label>
                             <input
@@ -75,11 +76,12 @@ class Main extends React.Component {
                                 name="author"
                                 style={{"width": "50%", "margin":"auto"}}
                             />
-                            <button className="btn btn-outline-primary" data-mdb-ripple-color="dark" style={{"margin-top": "1vh"}}>Submit!</button>
+                            <button className="btn btn-outline-primary" data-mdb-ripple-color="dark" style={{"marginTop": "1vh"}}>Submit!</button>
                         </form>
                         {this.state.loading ? <div style={{"height":"80px", "display":"flex", "alignItems":"center", "justifyContent":"center", "overflow":"hidden"}}><img src = {loader} alt = "Loading"/> </div>: <div style={{"color":"red", "fontSize":"30px"}}>{this.state.output}</div>}
                     </div>
                 </div>
+                <Bot />
             </div>
         )
     }
