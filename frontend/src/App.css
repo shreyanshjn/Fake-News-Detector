@@ -43,3 +43,19 @@
     transform: rotate(360deg);
   }
 }
+
+.Real {
+    color: green;
+}
+
+.Real::after {
+    content: url('./images/real.png');
+}
+
+.Fake {
+    color: red;
+}
+
+.Fake::after {
+    content: url('./images/fake.png');
+}

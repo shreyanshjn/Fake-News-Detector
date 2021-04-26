@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import loader from './giphy.gif' 
 import Bot from './Bot'
+import './App.css'
 
 class Main extends React.Component {
     constructor() {
@@ -78,7 +79,7 @@ class Main extends React.Component {
                             />
                             <button className="btn btn-outline-primary" data-mdb-ripple-color="dark" style={{"marginTop": "1vh"}}>Submit!</button>
                         </form>
-                        {this.state.loading ? <div style={{"height":"80px", "display":"flex", "alignItems":"center", "justifyContent":"center", "overflow":"hidden"}}><img src = {loader} alt = "Loading"/> </div>: <div style={{"color":"red", "fontSize":"30px"}}>{this.state.output}</div>}
+                        {this.state.loading ? <div style={{"height":"80px", "display":"flex", "alignItems":"center", "justifyContent":"center", "overflow":"hidden"}}><img src = {loader} alt = "Loading"/> </div>: <div style={{"fontSize":"30px"}} className = {this.state.output} >{this.state.output} </div>}
                     </div>
                 </div>
                 <Bot />
